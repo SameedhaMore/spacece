@@ -28,6 +28,7 @@ include_once '../common/banner.php';
                     <div class="col-sm-10">
                 <lable class="mb-3">Activity Name : </lable>
         <input type="text" name="act_name" class="form-control" id="act_name" placeholder="Activity Name" required>
+        <br>
              
 
                 <lable class="mb-3">Activity Level : </lable>
@@ -38,13 +39,16 @@ include_once '../common/banner.php';
                     <option value="3">Level 3</option>
                     <option value="4">Level 4</option>
                 </select>
+                <br>
         
                
                 <lable class="mb-3">Activity Developing Domain  : </lable>
         <input type="text" name="act_dom" class="form-control" id="act_dom" placeholder="Activity Developing Domain" required>
+        <br>
               
                 <lable class="mb-3">Activity objectives  : </lable>
                 <textarea name="act_obj" class="form-control" id="act_obj" cols="30" rows="3" placeholder="Activity objectives" required></textarea>
+                <br>
       
                 <lable class="mb-3">Activity process : </lable>
       
@@ -55,25 +59,30 @@ include_once '../common/banner.php';
                 </div>
                 <div class="col-sm-6 ">
                 <div class="col-sm-10">
+                <br>
+        
                 <lable class="mb-3">Activity Key Objectives  : </lable>
         <input type="text" name="act_key" class="form-control" id="act_key" placeholder="Activity Key Objectives" required>
+        <br>
                 <lable class="mb-3">Activity material : </lable>
         <input type="text" name="act_mat" class="form-control" id="act_mat" placeholder="Activity material" required>
-               
-                <lable class="mb-3">Activity Assesment : </lable>
-                <textarea name="act_asses" class="form-control" id="act_asses" placeholder="Activity Assesment" cols="30" rows="3" required></textarea>
+        <br>     
+                <lable class="mb-3">Activity Assessment : </lable>
+                <textarea name="act_asses" class="form-control" id="act_asses" placeholder="Activity Assessment" cols="30" rows="3" required></textarea>
+                <br>
            
                 
 
                 <lable class="mb-3">Activity Instructions : </lable>
-        
         <textarea name="act_ins" class="form-control" id="act_ins" cols="30" placeholder="Activity Instructions" rows="3" required></textarea>
-              
+        <br>      
                 <lable class="mb-3">Activity Date: </lable>
         <input type="date" name="act_date" class="form-control" id="act_date"  required>
+        <br>
        
         <lable class="mb-3">Playlist  description: </lable>
         <input type="text" name="pl_desc" class="form-control" id="pl_desc" placeholder="Playlist  description" required>
+        <br>
 
         <lable class="mb-3">Activity Status : </lable>
                 <select class="form-control" id="act_type" name="act_type" required>
