@@ -2,23 +2,25 @@ let params = (new URL(document.location)).searchParams;
 let channel1 = params.get('channel'); // is the string "cha123".
 let appid1 = params.get('appId'); // is the string "183432424242"
 let id1 = params.get('id'); 
-var agoraAppId = "0485c1232ca7491e9ada47ae96da3160";
+console.log(id1);
+console.log(appid1);
+console.log(channel1);
+
+
 if(channel1){
 
 
 
 //alert(decodeURIComponent(id1).replace(/\+/g, '%20'));
 //alert(id1);
- var token1 =generateToken();
+ var token1 =id1;
 
- ///var agoraAppId = "0485c1232ca7491e9ada47ae96da3160";
+ var agoraAppId =appid1;
  console.log(agoraAppId) // Set your Agora App ID
-var channelName ="testing";
-var uid="43456";
+var channelName=channel1;
+var uid="10";
 var attend = false;
-if(channel1===channelName && appid1===agoraAppId && id1===token1){
-attend = true;
-}
+
 
 // video profile settings
 var cameraVideoProfile = '480p_4'; // 640 × 480 @ 30fps  & 750kbs
@@ -79,8 +81,8 @@ client.on('stream-added', function (evt) {
 
 client.on('stream-subscribed', function (evt) {
   
-  if(attend===true){
-alert("Added");
+ 
+//alert("Added");
 
   var remoteStream = evt.stream;
   var remoteId = remoteStream.getId();
@@ -92,10 +94,7 @@ alert("Added");
   } else {
     addRemoteStreamMiniView(remoteStream);
   }
-}else{
-  alert("Invalid Link");
-  window.location.href="http://localhost/ConsultUs/alldoc.php";
-}
+
 });
 
 // remove the remote-container when a user leaves the channel
@@ -147,13 +146,13 @@ function joinChannel() {
 
   
 
-  var token = generateToken();
-console.log(token);
+  var token = id1;
+ // alert(token);
   var userID = null;
 
 
    
-  client.join(token, channelName, userID, function(uid) {
+  client.join(token,channelName,userID,function(uid) {
    
       console.log("User " + uid + " join channel successfully");
       createCameraStream(uid);
@@ -178,6 +177,7 @@ function createCameraStream(uid) {
    
    try{
      localStream.play('local-video');
+     //alert("Started");
    } catch(err){
     console.log(err);
    }// play the given stream within the local-video div
@@ -207,7 +207,8 @@ function initScreenShare() {
 }
 
 function joinChannelAsScreenShare() {
-  var token = generateToken();
+  console.log("Joined");
+  var token = id1;
   var userID = null; // set to null to auto generate uid on successfull connection
   screenClient.join(token, channelName, userID, function(uid) { 
     localStreams.screen.id = uid;  // keep track of the uid of the screen stream.
@@ -325,15 +326,14 @@ function leaveChannel() {
     // hide the mute/no-video overlays
     toggleVisibility("#mute-overlay", false); 
     toggleVisibility("#no-local-video", false); 
+    wimdow.location.href('../cdetails.php?category=all');
   }, function(err) {
     console.log("client leave failed ", err); //error handling
   });
 }
 
 // use tokens for added security
-function generateToken() {
-  return "0060485c1232ca7491e9ada47ae96da3160IABxwth4Z7J/3yswGgj/CVCDnzpojEgg70oxn8ILQiCWowZa8+gAAAAAEACjOAeR9ovaYQEAAQD0i9ph"; // TODO: add a token generation
-}
+
 function enableUiControls(localStream) {
 
   $("#mic-btn").prop("disabled", false);
@@ -399,7 +399,4 @@ function enableUiControls(localStream) {
   });
 
 }
-}
-function generateToken() {
-  return "0060485c1232ca7491e9ada47ae96da3160IABxwth4Z7J/3yswGgj/CVCDnzpojEgg70oxn8ILQiCWowZa8+gAAAAAEACjOAeR9ovaYQEAAQD0i9ph"; // TODO: add a token generation
 }

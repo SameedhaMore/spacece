@@ -1,3 +1,219 @@
+// Admin Page Edit Course
+const editCourse = (id) => {
+  $(`#tr-${id}`).html(
+    `<td id="td-id-${id}">${id}</td>
+  <td><input type="text" id="title-${id}" value="${$(
+      `#td-title-${id}`
+    ).text()}"></td>
+  <td><input type="text" id="description-${id}" value="${$(
+      `#td-description-${id}`
+    ).text()}"></td>
+  <td><input type="text" id="duration-${id}" value="${$(
+      `#td-duration-${id}`
+    ).text()}"></td>
+  <td><input type="text" id="mode-${id}" value="${$(
+      `#td-mode-${id}`
+    ).text()}"></td>
+  <td><input type="text" id="type-${id}" value="${$(
+      `#td-type-${id}`
+    ).text()}"></td>
+  <td><input type="text" id="price-${id}" value="${$(
+      `#td-price-${id}`
+    ).text()}"></td>
+  <td>
+    <button class="btn btn-wide" onclick="updateCourse(${id})">Update</button><br>
+    <button class="btn btn-wide" onclick="deleteCourse(${id})">Delete</button>
+  </td>`
+  );
+};
+
+const addCourse = () => {
+  $("#admin-table").append(
+    `<tr>
+  <td id="td-id-new">New</td>
+  <td><input type="text" id="title-new"></td>
+  <td><input type="text" id="description-new"></td>
+  <td><input type="text" id="duration-new"></td>
+  <td><input type="text" id="mode-new"></td>
+  <td><input type="text" id="type-new"></td>
+  <td><input type="text" id="price-new"></td>
+  <td>
+    <button class="btn btn-wide" onclick="addCourseSubmit()">Create</button><br>
+    <button class="btn btn-wide" onclick="cancelCourse()">Cancel</button>
+  </td>
+</tr>`
+  );
+};
+
+const addCourseSubmit = () => {
+  let title = $("#title-new").val();
+  let description = $("#description-new").val();
+  let duration = $("#duration-new").val();
+  let mode = $("#mode-new").val();
+  let type = $("#type-new").val();
+  let price = $("#price-new").val();
+
+  let formData = new FormData();
+  formData.append("title", title);
+  formData.append("description", description);
+  formData.append("duration", duration);
+  formData.append("mode", mode);
+  formData.append("type", type);
+  formData.append("price", price);
+  formData.append("action", "add");
+
+  $.ajax({
+    url: "../api/learnonapp_courses_add.php",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (d) {
+      if (d.status == "success") {
+        const courses = d.data;
+        $("#admin-page").html(`
+        <button class="btn btn-wide" onclick="addCourse()">Add Course</button>
+          <table id="admin-table">
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Duration</th>
+              <th>Mode</th>
+              <th>Type</th>
+              <th>Price</th>
+              <th></th>
+            </tr>
+            ${courses.map((course) => {
+              return `<tr id="tr-${course.id}">
+                    <td id="td-id-${course.id}">${course.id}</td>
+                    <td id="td-title-${course.id}">${course.title}</td>
+                    <td id="td-description-${course.id}">${course.description}</td>
+                    <td id="td-duration-${course.id}">${course.duration}</td>
+                    <td id="td-mode-${course.id}">${course.mode}</td>
+                    <td id="td-type-${course.id}">${course.type}</td>
+                    <td id="td-price-${course.id}">${course.price}</td>
+                    <td>
+                      <button class="btn btn-wide" onclick="editCourse(${course.id})">Edit</button><br>
+                      <button class="btn btn-wide" onclick="deleteCourse(${course.id})">Delete</button>
+                    </td>
+              </tr>`;
+            })}
+          </table>`);
+      }
+    },
+  });
+};
+
+const updateCourse = (id) => {
+  const title = $(`#title-${id}`).val();
+  const description = $(`#description-${id}`).val();
+  const duration = $(`#duration-${id}`).val();
+  const mode = $(`#mode-${id}`).val();
+  const type = $(`#type-${id}`).val();
+  const price = $(`#price-${id}`).val();
+
+  let formData = new FormData();
+  formData.append("title", title);
+  formData.append("description", description);
+  formData.append("duration", duration);
+  formData.append("mode", mode);
+  formData.append("type", type);
+  formData.append("price", price);
+  formData.append("action", "update");
+  formData.append("id", id);
+
+  $.ajax({
+    url: "../api/learnonapp_courses_update.php",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (d) {
+      if (d.status == "success") {
+        const courses = d.data;
+        $("#admin-page").html(`
+        <button class="btn btn-wide" onclick="addCourse()">Add Course</button>
+          <table id="admin-table">
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Duration</th>
+              <th>Mode</th>
+              <th>Type</th>
+              <th>Price</th>
+              <th></th>
+            </tr>
+            ${courses.map((course) => {
+              return `<tr id="tr-${course.id}">
+                    <td id="td-id-${course.id}">${course.id}</td>
+                    <td id="td-title-${course.id}">${course.title}</td>
+                    <td id="td-description-${course.id}">${course.description}</td>
+                    <td id="td-duration-${course.id}">${course.duration}</td>
+                    <td id="td-mode-${course.id}">${course.mode}</td>
+                    <td id="td-type-${course.id}">${course.type}</td>
+                    <td id="td-price-${course.id}">${course.price}</td>
+                    <td>
+                      <button class="btn btn-wide" onclick="editCourse(${course.id})">Edit</button><br>
+                      <button class="btn btn-wide" onclick="deleteCourse(${course.id})">Delete</button>
+                    </td>
+              </tr>`;
+            })}
+          </table>`);
+      }
+    },
+  });
+};
+
+const deleteCourse = (id) => {
+  let formData = new FormData();
+  formData.append("action", "delete");
+  formData.append("id", id);
+
+  $.ajax({
+    url: "../api/learnonapp_courses_delete.php",
+    type: "POST",
+    data: formData,
+    processData: false,
+    contentType: false,
+    success: function (d) {
+      if (d.status == "success") {
+        const courses = d.data;
+        $("#admin-page").html(`
+        <button class="btn btn-wide" onclick="addCourse()">Add Course</button>
+          <table id="admin-table">
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Duration</th>
+              <th>Mode</th>
+              <th>Type</th>
+              <th>Price</th>
+              <th></th>
+            </tr>
+            ${courses.map((course) => {
+              return `<tr id="tr-${course.id}">
+                    <td id="td-id-${course.id}">${course.id}</td>
+                    <td id="td-title-${course.id}">${course.title}</td>
+                    <td id="td-description-${course.id}">${course.description}</td>
+                    <td id="td-duration-${course.id}">${course.duration}</td>
+                    <td id="td-mode-${course.id}">${course.mode}</td>
+                    <td id="td-type-${course.id}">${course.type}</td>
+                    <td id="td-price-${course.id}">${course.price}</td>
+                    <td>
+                      <button class="btn btn-wide" onclick="editCourse(${course.id})">Edit</button><br>
+                      <button class="btn btn-wide" onclick="deleteCourse(${course.id})">Delete</button>
+                    </td>
+              </tr>`;
+            })}
+          </table>`);
+      }
+    },
+  });
+};
+
 $(document).ready(function () {
   //Fetching Courses Function Start
   $.ajax({
@@ -103,4 +319,45 @@ $(document).ready(function () {
     });
   }
   //Fetching Single Course Function End
+
+  // Admin Page Details
+  $.ajax({
+    url: "../api/learnonapp_courses.php",
+    // url: "https://spacefoundation.in/test/SpacECE-PHP/api/learnonapp_courses.php",
+    type: "GET",
+    success: function (d) {
+      if (d.status == "success") {
+        const courses = d.data;
+        $("#admin-page").html(`
+        <button class="btn btn-wide" onclick="addCourse()">Add Course</button>
+          <table id="admin-table">
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Duration</th>
+              <th>Mode</th>
+              <th>Type</th>
+              <th>Price</th>
+              <th></th>
+            </tr>
+            ${courses.map((course) => {
+              return `<tr id="tr-${course.id}">
+                    <td id="td-id-${course.id}">${course.id}</td>
+                    <td id="td-title-${course.id}">${course.title}</td>
+                    <td id="td-description-${course.id}">${course.description}</td>
+                    <td id="td-duration-${course.id}">${course.duration}</td>
+                    <td id="td-mode-${course.id}">${course.mode}</td>
+                    <td id="td-type-${course.id}">${course.type}</td>
+                    <td id="td-price-${course.id}">${course.price}</td>
+                    <td>
+                      <button class="btn btn-wide" onclick="editCourse(${course.id})">Edit</button><br>
+                      <button class="btn btn-wide" onclick="deleteCourse(${course.id})">Delete</button>
+                    </td>
+              </tr>`;
+            })}
+          </table>`);
+      }
+    },
+  });
 });
